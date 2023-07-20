@@ -1,4 +1,4 @@
-# 9017 크로스 컨드티
+# 9017 크로스 컨트리
 import sys
 input = sys.stdin.readline
 

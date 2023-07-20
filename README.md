@@ -152,7 +152,7 @@ def solution(rows, columns, queries):
 ```
 ## [성구](./크로스%20컨트리/성구.py)
 ```py
-# 9017 크로스 컨드티
+# 9017 크로스 컨트리
 import sys
 input = sys.stdin.readline
 
