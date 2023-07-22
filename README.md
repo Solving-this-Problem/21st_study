@@ -146,6 +146,43 @@ def solution(rows, columns, queries):
 ```
 ## [민웅](./크로스%20컨트리/민웅.py)
 ```py
+# 9017_크로스컨트리_CrossCountry
+import sys
+input = sys.stdin.readline
+
+T = int(input())
+
+for tc in range(T):
+    N = int(input())
+
+    players = list(map(int, input().split()))
+    teams = {}
+    scores = {}
+    m_value = 0
+    fifth_p = float('inf')
+    ans = 0
+
+    for i in range(N):
+        if players[i] in teams.keys():
+            teams[players[i]].append(i)
+            if len(teams[players[i]]) <= 4:
+                scores[players[i]] += (i+1)
+        else:
+            teams[players[i]] = [i]
+            scores[players[i]] = (i+1)
+
+    for k in teams.keys():
+        if len(teams[k]) == 6:
+            if scores[k] > m_value:
+                m_value = scores[k]
+                fifth_p = teams[k][4]
+                ans = k
+            elif scores[k] == m_value:
+                if teams[k][4] < fifth_p:
+                    ans = k
+                    fifth_p = teams[k][4]
+
+    print(ans)
 ```
 ## [서희](./크로스%20컨트리/서희.py)
 ```py
@@ -217,6 +254,46 @@ for _ in range(int(input())):
 ```
 ## [민웅](./쉬운%20최단거리/민웅.py)
 ```py
+# 14940_쉬운 최단거리
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+dxy = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+n, m = map(int, input().split())
+
+matrix = [list(map(int, input().split())) for _ in range(n)]
+visited = [[-1]*m for _ in range(n)]
+
+x, y = 0, 0
+for i in range(n):
+    for j in range(m):
+        if matrix[i][j] == 2:
+            x, y = i, j
+            break
+
+q = deque()
+q.append([x, y, 0])
+visited[x][y] = 0
+
+while q:
+    lx, ly, dis = q.popleft()
+
+    for d in dxy:
+        nx = lx + d[0]
+        ny = ly + d[1]
+        if 0 <= nx < n and 0 <= ny < m:
+            if matrix[nx][ny] == 1 and visited[nx][ny] == -1:
+                q.append([nx, ny, dis+1])
+                visited[nx][ny] = dis+1
+
+for i in range(n):
+    for j in range(m):
+        if matrix[i][j] == 0:
+            visited[i][j] = 0
+
+for v in visited:
+    print(*v)
 ```
 ## [서희](./쉬운%20최단거리/서희.py)
 ```py
@@ -289,6 +366,40 @@ for i in range(N):
 ```
 ## [민웅](./고층건물/민웅.py)
 ```py
+# 1027_고층건물_skyscraper
+import sys
+input = sys.stdin.readline
+# 접하면 안된다 -> 같은 직선상에 있는 같은 기울기 선분도 안된다
+
+N = int(input())
+
+nli = list(map(int, input().split()))
+
+check = [0]*50
+
+for i in range(N):
+    right, left = float('-inf'), float('inf')
+    for j in range(i+1, N):
+        temp = (nli[j] - nli[i]) / (j - i)
+        if nli[j] >= nli[i]:
+            if temp > right:
+                check[i] += 1
+                check[j] += 1
+                right = temp
+        # if j == i+1:
+        #     if nli[j] == nli[i]:
+        #         check[i] += 1
+        #         check[j] += 1
+
+    for k in range(i-1, -1, -1):
+        temp = (nli[k] - nli[i]) / (k - i)
+        if nli[k] > nli[i]:
+            if temp < left:
+                check[i] += 1
+                check[k] += 1
+                left = temp
+
+print(max(check))
 ```
 ## [서희](./고층건물/서희.py)
 ```py
